@@ -109,6 +109,19 @@ class DSC extends JObject
 		return PHP_VERSION;
 	}
 	
+	public function getFormToken()
+	{
+		if(DSC_JVERSION == '30') 
+		{
+			 $validate = JSession::getFormToken();
+		} else 
+		{
+			$validate = JUtility::getToken();
+		}
+		
+		return $validate;
+	}
+		
 	public static function getApp( $app=null, $find=true )
 	{
 		if (empty($app) && empty($find))
@@ -118,7 +131,7 @@ class DSC extends JObject
 		
 		if (empty($app) && !empty($find)) 
 		{
-			$app = JRequest::getCmd('option');
+			$app = JFactory::getApplication()->input->getCmd('option');
 		}
 		
 		if (strpos($app, 'com_') !== false) {
